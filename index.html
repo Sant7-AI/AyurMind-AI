@@ -173,10 +173,11 @@ body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--text);
 .q-text{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:var(--dg);line-height:1.45;margin-bottom:6px;}
 .q-hint{font-size:12px;color:var(--muted);font-style:italic;margin-bottom:20px;line-height:1.5;}
 .q-opts{display:flex;flex-direction:column;gap:10px;}
-.qopt{background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius-md);padding:14px 16px;cursor:pointer;font-size:13px;color:var(--text);font-family:'DM Sans',sans-serif;transition:var(--transition);display:flex;align-items:flex-start;gap:12px;text-align:left;box-shadow:var(--shadow-sm);line-height:1.5;}
+.qopt{background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius-md);padding:14px 16px;cursor:pointer;font-size:13px;color:var(--text);font-family:'DM Sans',sans-serif;transition:all .2s ease;display:flex;align-items:flex-start;gap:12px;text-align:left;box-shadow:var(--shadow-sm);line-height:1.5;width:100%;}
 .qopt:hover{border-color:var(--sg);background:#F0F8F2;transform:translateX(3px);}
-.qopt.sel{border-color:var(--mg);background:#E8F5EC;color:var(--dg);font-weight:500;}
-.qopt-icon{font-size:18px;flex-shrink:0;margin-top:1px;}
+.qopt.sel{border-color:var(--mg);background:linear-gradient(135deg,#D4EFDA,#E8F5EC);color:var(--dg);font-weight:600;transform:translateX(5px);box-shadow:0 3px 12px rgba(45,90,61,.18);}
+.qopt.sel .qopt-icon{transform:scale(1.15);}
+.qopt-icon{font-size:18px;flex-shrink:0;margin-top:1px;transition:transform .2s;}
 .q-nav{display:flex;gap:10px;padding:14px 18px;background:var(--white);border-top:1px solid var(--border);box-shadow:0 -2px 8px rgba(0,0,0,.04);}
 .q-nav .btn-green{flex:1;padding:14px;}
 /* LOADING */
@@ -740,7 +741,7 @@ function cycleLang(){
 // ══════════════════════════════════════════════════════════════════
 // APP STATE
 // ══════════════════════════════════════════════════════════════════
-const appState={ mode:'patient', resultData:null, curQ:0, answers:{}, activeTab:'home', activeTool:'bmi', pickedSymptoms:new Set(), selectedHerb:null, vikritiAnswers:{}, activeDietDay:0, wsExpanded:false };
+const appState={ mode:'patient', resultData:null, curQ:0, answers:{}, activeTab:'home', activeTool:'bmi', pickedSymptoms:new Set(), selectedHerb:null, vikritiAnswers:{}, activeDietDay:0, wsExpanded:false, _autoAdvance:null };
 
 // ══════════════════════════════════════════════════════════════════
 // QUESTIONS (24 — same as v5, unchanged for continuity)
@@ -938,13 +939,20 @@ function pickOpt(i){
   appState.answers[appState.curQ]=i;
   document.querySelectorAll('.qopt').forEach((el,idx)=>el.classList.toggle('sel',idx===i));
   document.getElementById('btn-next').disabled=false;
+  // Auto-advance after short delay so user sees selection highlight
+  clearTimeout(appState._autoAdvance);
+  appState._autoAdvance=setTimeout(()=>{
+    if(appState.answers[appState.curQ]===i){ nextQ(); }
+  }, 380);
 }
 function nextQ(){
+  clearTimeout(appState._autoAdvance);
   if(appState.answers[appState.curQ]===undefined) return;
   if(appState.curQ<QS.length-1){ appState.curQ++; renderQ(); }
   else { startLoading(); }
 }
 function prevQ(){
+  clearTimeout(appState._autoAdvance);
   if(appState.curQ>0){ appState.curQ--; renderQ(); }
 }
 
@@ -1182,8 +1190,8 @@ function renderResult(){
       <!-- AI PERSONALIZED ADVICE -->
       <div class="ai-section" id="ai-result-section">
         <div class="ai-badge">✦ AI-POWERED</div>
-        <div class="ai-section-title">🤖 Personalized AI Health Advice</div>
-        <div class="ai-section-sub">Claude AI will analyze your exact Prakriti profile and give you specific, personalized guidance</div>
+        <div class="ai-section-title">🌿 AyurMind AI — Personalized Health Advice</div>
+        <div class="ai-section-sub">AyurMind AI will analyze your exact Prakriti profile and give you specific, personalized guidance</div>
         <div id="ai-result-output">
           <button class="ai-btn" onclick="getAIResultAdvice()">✦ Generate My AI Health Plan</button>
         </div>
@@ -1238,10 +1246,10 @@ function analyseSymptoms(){
   if(!symBox) return;
   const pickedNames=picked.map(i=>SYMPTOMS[i].t).join(', ');
   symBox.innerHTML=`<div class="sym-result fade-in"><h4>⚕️ ${a.title}</h4><p>${a.desc}</p><p style="font-size:11px;font-weight:700;color:rgba(255,255,255,.55);margin-bottom:6px;">IMMEDIATE REMEDIES:</p><ul class="remedy-list">${a.remedies.map(r=>`<li>${r}</li>`).join('')}</ul><p style="font-size:10px;color:rgba(255,255,255,.35);margin-top:10px;font-style:italic;">📚 ${a.ref}</p></div>
-  <div class="ai-section" style="margin-top:12px;" id="ai-sym-section">
+    <div class="ai-section" style="margin-top:12px;" id="ai-sym-section">
     <div class="ai-badge">✦ AI-POWERED</div>
-    <div class="ai-section-title">🤖 AI Deep Symptom Analysis</div>
-    <div class="ai-section-sub">Claude AI will analyze your specific symptom combination and give targeted Ayurvedic remedies</div>
+    <div class="ai-section-title">🌿 AyurMind AI — Deep Symptom Analysis</div>
+    <div class="ai-section-sub">AyurMind AI will analyze your specific symptom combination and give targeted Ayurvedic remedies</div>
     <div id="ai-sym-output">
       <button class="ai-btn" onclick="getAISymptomAnalysis('${pickedNames}','${dom}')">✦ Analyze My Symptoms with AI</button>
     </div>
@@ -1818,7 +1826,7 @@ function checkHerbSafety(){
 // ══════════════════════════════════════════════════════════════════
 
 async function callClaudeAPI(prompt, outputEl, onSuccess){
-  outputEl.innerHTML=`<div class="ai-loading"><div class="ai-dots"><div class="ai-dot"></div><div class="ai-dot"></div><div class="ai-dot"></div></div><span>Claude AI is thinking...</span></div>`;
+  outputEl.innerHTML=`<div class="ai-loading"><div class="ai-dots"><div class="ai-dot"></div><div class="ai-dot"></div><div class="ai-dot"></div></div><span>AyurMind AI is thinking...</span></div>`;
   
   const SYSTEM = `You are AyurMind AI — an expert Ayurvedic health advisor trained on classical texts: Charaka Samhita, Ashtanga Hridayam, Sushruta Samhita, Madhava Nidana, and modern Ayurvedic clinical research (CCRAS, PMC studies).
 
@@ -1964,7 +1972,7 @@ Requirements: SPECIFIC to my exact dosha combo, not generic. Include exact herb/
     if(!text) throw new Error('empty');
     tipText.innerHTML=`✦ ${text}`;
     const src=tipText.closest('.ai-tip-card')?.querySelector('.ai-tip-src');
-    if(src) src.textContent='✦ Generated by Claude AI · Personalized for your Prakriti';
+    if(src) src.textContent='✦ Generated by AyurMind AI · Personalized for your Prakriti';
     if(btn){ btn.textContent='✓ Done'; btn.style.opacity='.5'; }
   } catch(e){
     // Fallback to expanded local tip

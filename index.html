@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>AyurMind AI v7 — Complete Ayurvedic Health Platform</title>
+<title>AyurMind AI v10 — Complete Ayurvedic Health Platform</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root{
@@ -34,13 +34,81 @@ body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--text);
 .mode-toggle{display:flex;background:rgba(255,255,255,.08);border-radius:20px;overflow:hidden;border:1px solid rgba(255,255,255,.15);}
 .mode-btn{padding:5px 12px;font-size:10px;font-weight:700;cursor:pointer;color:rgba(255,255,255,.55);background:transparent;border:none;font-family:'DM Sans',sans-serif;transition:var(--transition);letter-spacing:.6px;text-transform:uppercase;}
 .mode-btn.active{background:var(--gold);color:var(--dg);}
-.bnav{position:fixed;bottom:0;left:0;right:0;background:var(--dg);display:flex;z-index:200;border-top:1px solid rgba(255,255,255,.12);padding-bottom:env(safe-area-inset-bottom);box-shadow:0 -2px 16px rgba(0,0,0,.25);overflow-x:auto;}
-.bnav::-webkit-scrollbar{display:none;}
-.bnav-item{flex:0 0 auto;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:9px 12px 7px;cursor:pointer;color:rgba(255,255,255,.4);font-size:8.5px;font-weight:700;letter-spacing:.4px;transition:var(--transition);gap:3px;border:none;background:transparent;font-family:'DM Sans',sans-serif;text-transform:uppercase;min-width:54px;}
-.bnav-item .ni{font-size:18px;line-height:1;transition:transform .2s;}
-.bnav-item.active{color:var(--gl);}
+/* ── BOTTOM NAV — Mobile: 2 rows × 5, Tablet/Desktop: 1 row × 10 ── */
+.bnav{
+  position:fixed;bottom:0;left:0;right:0;
+  background:var(--dg);
+  z-index:200;
+  border-top:1px solid rgba(255,255,255,.12);
+  box-shadow:0 -2px 20px rgba(0,0,0,.3);
+  padding-bottom:env(safe-area-inset-bottom);
+  /* Mobile: 2×5 grid */
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  grid-template-rows:auto auto;
+}
+.bnav-item{
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  padding:7px 4px 6px;
+  cursor:pointer;
+  color:rgba(255,255,255,.45);
+  font-size:7.5px;font-weight:700;
+  letter-spacing:.3px;text-transform:uppercase;
+  transition:var(--transition);
+  gap:2px;border:none;
+  background:transparent;
+  font-family:'DM Sans',sans-serif;
+  border-right:1px solid rgba(255,255,255,.04);
+  border-bottom:1px solid rgba(255,255,255,.06);
+  min-height:50px;
+}
+/* Remove bottom border from 2nd row items (last 5) */
+.bnav-item:nth-child(n+6){border-bottom:none;}
+/* Remove right border from 5th and 10th items */
+.bnav-item:nth-child(5),.bnav-item:nth-child(10){border-right:none;}
+.bnav-item .ni{font-size:17px;line-height:1;transition:transform .18s;}
+.bnav-item.active{color:var(--gl);background:rgba(255,255,255,.05);}
 .bnav-item.active .ni{transform:translateY(-2px);}
-.page-body{flex:1;padding:20px 16px 96px;overflow-y:auto;}
+.bnav-item:hover{color:rgba(255,255,255,.8);background:rgba(255,255,255,.04);}
+
+/* Tablet: 480px+ → single row, scroll if needed */
+@media(min-width:480px){
+  .bnav{
+    grid-template-columns:repeat(10,1fr);
+    grid-template-rows:auto;
+  }
+  .bnav-item{
+    font-size:8px;
+    padding:10px 4px 8px;
+    border-bottom:none;
+    min-height:58px;
+  }
+  .bnav-item:nth-child(n+6){border-bottom:none;}
+}
+
+/* Desktop: 768px+ → bigger, comfortable */
+@media(min-width:768px){
+  .bnav{
+    grid-template-columns:repeat(10,1fr);
+    max-width:900px;
+    left:50%;transform:translateX(-50%);
+    border-radius:20px 20px 0 0;
+    border:1px solid rgba(255,255,255,.1);
+    border-bottom:none;
+  }
+  .bnav-item{
+    font-size:9px;
+    padding:12px 8px 10px;
+    min-height:64px;
+    gap:4px;
+  }
+  .bnav-item .ni{font-size:20px;}
+}
+
+.page-body{flex:1;padding:20px 16px 115px;overflow-y:auto;}
+/* Desktop page body adjustment */
+@media(min-width:768px){.page-body{padding-bottom:80px;}}
 .page-title{font-family:'Playfair Display',serif;font-size:26px;font-weight:700;color:var(--dg);margin-bottom:4px;line-height:1.2;}
 .page-sub{font-size:13px;color:var(--muted);margin-bottom:20px;line-height:1.6;}
 .section-label{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--sg);margin-bottom:8px;}
@@ -402,7 +470,27 @@ body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--text);
 .daily-tip-card .tip-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:3px;color:var(--sg);margin-bottom:6px;}
 .daily-tip-card .tip-text{font-size:13px;color:rgba(255,255,255,.88);line-height:1.7;}
 .daily-tip-card .tip-src{font-size:10px;color:rgba(255,255,255,.4);margin-top:6px;font-style:italic;}
-/* SCROLL TO TOP */
+/* AI FEATURES */
+.ai-section{background:linear-gradient(135deg,#0E1E28,#1A3040);border-radius:var(--radius-md);padding:18px;margin-bottom:14px;box-shadow:var(--shadow-md);border:1px solid rgba(100,180,255,.15);}
+.ai-section-title{font-family:'Playfair Display',serif;font-size:15px;color:#7EC8E3;margin-bottom:4px;display:flex;align-items:center;gap:8px;}
+.ai-section-sub{font-size:11px;color:rgba(255,255,255,.4);margin-bottom:14px;}
+.ai-response{font-size:13px;color:rgba(255,255,255,.88);line-height:1.8;white-space:pre-wrap;}
+.ai-response p{margin-bottom:8px;}
+.ai-loading{display:flex;align-items:center;gap:10px;color:rgba(255,255,255,.5);font-size:12px;}
+.ai-dots{display:flex;gap:4px;}
+.ai-dot{width:7px;height:7px;border-radius:50%;background:var(--gold);animation:aiPulse 1.2s ease-in-out infinite;}
+.ai-dot:nth-child(2){animation-delay:.2s;}
+.ai-dot:nth-child(3){animation-delay:.4s;}
+@keyframes aiPulse{0%,100%{opacity:.3;transform:scale(.8)}50%{opacity:1;transform:scale(1.1)}}
+.ai-btn{background:linear-gradient(135deg,#1A6B8A,#0E4A60);color:#fff;border:1px solid rgba(100,180,255,.3);border-radius:10px;padding:11px 18px;font-size:13px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;transition:var(--transition);display:inline-flex;align-items:center;gap:8px;width:100%;justify-content:center;}
+.ai-btn:hover{background:linear-gradient(135deg,#1F7A9A,#144F6A);transform:translateY(-1px);}
+.ai-btn:disabled{opacity:.5;cursor:not-allowed;transform:none;}
+.ai-badge{display:inline-flex;align-items:center;gap:4px;background:rgba(100,180,255,.12);border:1px solid rgba(100,180,255,.25);border-radius:20px;padding:3px 10px;font-size:10px;font-weight:700;color:#7EC8E3;letter-spacing:.5px;margin-bottom:12px;}
+.ai-tip-card{background:linear-gradient(135deg,#0E1E28,#1A3040);border-radius:var(--radius-md);padding:16px;margin-bottom:14px;box-shadow:var(--shadow-md);border:1px solid rgba(100,180,255,.15);}
+.ai-tip-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:3px;color:#7EC8E3;margin-bottom:6px;}
+.ai-tip-text{font-size:13px;color:rgba(255,255,255,.88);line-height:1.7;}
+.ai-tip-src{font-size:10px;color:rgba(255,255,255,.35);margin-top:6px;font-style:italic;}
+
 .scroll-top{position:fixed;bottom:80px;right:16px;width:42px;height:42px;border-radius:50%;background:var(--dg);color:var(--gl);border:none;font-size:18px;cursor:pointer;display:none;align-items:center;justify-content:center;box-shadow:var(--shadow-lg);z-index:150;transition:var(--transition);}
 .scroll-top.show{display:flex;}
 .scroll-top:hover{background:var(--mg);transform:translateY(-2px);}
@@ -434,7 +522,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--text);
 <!-- WELCOME SCREEN -->
 <div id="s-welcome" class="screen active">
   <div class="hdr">
-    <div class="logo">Ayur<span>Mind</span> AI<sub>v7</sub></div>
+    <div class="logo">Ayur<span>Mind</span> AI<sub>v10</sub></div>
     <div class="hdr-right">
       <button class="lang-btn" onclick="cycleLang()">🌐 <span id="lang-label">EN</span></button>
     </div>
@@ -504,7 +592,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--text);
 <!-- MAIN APP -->
 <div id="s-app" class="screen">
   <div class="hdr">
-    <div class="logo">Ayur<span>Mind</span> AI<sub>v7</sub></div>
+    <div class="logo">Ayur<span>Mind</span> AI<sub>v10</sub></div>
     <div class="hdr-right">
       <button class="lang-btn" onclick="cycleLang()">🌐 <span id="lang-label2">EN</span></button>
       <div class="mode-toggle">
@@ -957,7 +1045,14 @@ function renderHome(){
   if(appState.mode==='doctor'){ renderDoctorHome(); return; }
   const r=appState.resultData;
   const greeting=new Date().getHours()<12?'🌅 Good Morning':new Date().getHours()<17?'☀️ Good Afternoon':'🌙 Good Evening';
-  const tipHtml=r?`<div class="daily-tip-card"><div class="tip-label">TODAY'S ${PD[r.dominant].name.toUpperCase()} TIP</div><div class="tip-text">💡 ${getDailyTip(r.dominant)}</div><div class="tip-src">Ayurvedic classical guidance</div></div>`:'';
+  const tipHtml=r?`<div class="ai-tip-card" id="daily-tip-card">
+    <div class="ai-tip-label">✦ TODAY'S ${PD[r.dominant].name.toUpperCase()} TIP</div>
+    <div class="ai-tip-text" id="daily-tip-text">💡 ${getDailyTip(r.dominant)}</div>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-top:10px;">
+      <div class="ai-tip-src">Ayurvedic classical guidance</div>
+      <button onclick="getAIDailyTip('${r.dominant}','${r.vata}','${r.pitta}','${r.kapha}')" style="background:rgba(100,180,255,.15);border:1px solid rgba(100,180,255,.3);color:#7EC8E3;border-radius:20px;padding:4px 12px;font-size:10px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;" id="ai-tip-btn">✦ AI Tip</button>
+    </div>
+  </div>`:'';
   hc.innerHTML=`<div class="fade-in">${r?`<div class="dosha-banner ${r.dominant}"><div class="db-left"><h3>${PD[r.dominant].emoji} ${PD[r.dominant].name} Prakriti</h3><p>${greeting} · ${PD[r.dominant].element}</p></div><div class="db-emoji">${PD[r.dominant].emoji}</div></div>`:`<div class="dosha-banner none" onclick="enterApp()" style="cursor:pointer;"><div class="db-left"><h3>🌿 Start Your Assessment</h3><p>Tap to take the 3-minute Prakriti quiz</p></div><div style="font-size:36px;">→</div></div>`}${tipHtml}<div class="quick-grid"><div class="qcard" onclick="showTab('result')"><div class="qe">📊</div><h4>${t('report')}</h4><p>Dosha chart & plan</p></div><div class="qcard" onclick="showTab('yoga')"><div class="qe">🧘</div><h4>Yoga</h4><p>Asanas for Prakriti</p></div><div class="qcard" onclick="showTab('diet')"><div class="qe">🥗</div><h4>7-Day Diet</h4><p>Weekly meal plan</p></div><div class="qcard" onclick="showTab('symptoms')"><div class="qe">🩺</div><h4>Symptoms</h4><p>Check imbalance</p></div><div class="qcard" onclick="showTab('progress')"><div class="qe">📈</div><h4>Progress</h4><p>Track your journey</p></div><div class="qcard" onclick="showTab('panchakarma')"><div class="qe">🌊</div><h4>Panchakarma</h4><p>Detox therapies</p></div><div class="qcard" onclick="showTab('ritucharya')"><div class="qe">🗓️</div><h4>Seasons</h4><p>Ritucharya guide</p></div><div class="qcard" onclick="showTab('tools')"><div class="qe">⚕️</div><h4>Tools</h4><p>BMI, Agni, Nadi</p></div><div class="qcard" onclick="showTab('doctor')"><div class="qe">🏥</div><h4>Doctors</h4><p>Find Vaidya near you</p></div></div>${r?`<button class="btn btn-outline btn-full" onclick="resetQuiz()" style="font-size:13px;padding:11px;">🔄 Retake Quiz</button>`:''}</div>`;
 }
 
@@ -1083,6 +1178,17 @@ function renderResult(){
       <div class="card"><div class="card-title"><span class="ci">🧘</span>Yoga Therapy</div><p style="font-size:12px;color:var(--muted);margin-bottom:10px;">Based on your ${d.name} constitution — specific asanas to restore balance</p><button class="btn btn-green btn-full" onclick="showTab('yoga')" style="font-size:12px;padding:10px;">🧘 View Your Yoga Plan →</button></div>
       <div class="card"><div class="card-title"><span class="ci">🌅</span>Daily Routine (Dinacharya)</div>${d.routine.map(row=>`<div class="routine-row"><span class="rt">${row.t}</span><span class="ra">${row.a}</span></div>`).join('')}</div>
       <div class="card"><div class="card-title"><span class="ci">⚠️</span>Disease Susceptibility (Prakriti-based)</div>${d.risks.map(risk=>`<div class="risk-item"><div class="risk-icon">${risk.i}</div><div class="risk-info"><strong>${risk.c}</strong><span>${risk.d}</span></div></div>`).join('')}</div>
+
+      <!-- AI PERSONALIZED ADVICE -->
+      <div class="ai-section" id="ai-result-section">
+        <div class="ai-badge">✦ AI-POWERED</div>
+        <div class="ai-section-title">🤖 Personalized AI Health Advice</div>
+        <div class="ai-section-sub">Claude AI will analyze your exact Prakriti profile and give you specific, personalized guidance</div>
+        <div id="ai-result-output">
+          <button class="ai-btn" onclick="getAIResultAdvice()">✦ Generate My AI Health Plan</button>
+        </div>
+      </div>
+
       <div style="font-size:10px;color:var(--muted);font-style:italic;text-align:center;padding:8px 0 4px;">📚 ${d.src}</div>
     </div>`;
   setTimeout(()=>drawDoshaChart(r), 100);
@@ -1130,7 +1236,16 @@ function analyseSymptoms(){
   const a=SYM_ANALYSIS[dom];
   const symBox=document.getElementById('sym-result-box');
   if(!symBox) return;
-  symBox.innerHTML=`<div class="sym-result fade-in"><h4>⚕️ ${a.title}</h4><p>${a.desc}</p><p style="font-size:11px;font-weight:700;color:rgba(255,255,255,.55);margin-bottom:6px;">IMMEDIATE REMEDIES:</p><ul class="remedy-list">${a.remedies.map(r=>`<li>${r}</li>`).join('')}</ul><p style="font-size:10px;color:rgba(255,255,255,.35);margin-top:10px;font-style:italic;">📚 ${a.ref}</p></div>`;
+  const pickedNames=picked.map(i=>SYMPTOMS[i].t).join(', ');
+  symBox.innerHTML=`<div class="sym-result fade-in"><h4>⚕️ ${a.title}</h4><p>${a.desc}</p><p style="font-size:11px;font-weight:700;color:rgba(255,255,255,.55);margin-bottom:6px;">IMMEDIATE REMEDIES:</p><ul class="remedy-list">${a.remedies.map(r=>`<li>${r}</li>`).join('')}</ul><p style="font-size:10px;color:rgba(255,255,255,.35);margin-top:10px;font-style:italic;">📚 ${a.ref}</p></div>
+  <div class="ai-section" style="margin-top:12px;" id="ai-sym-section">
+    <div class="ai-badge">✦ AI-POWERED</div>
+    <div class="ai-section-title">🤖 AI Deep Symptom Analysis</div>
+    <div class="ai-section-sub">Claude AI will analyze your specific symptom combination and give targeted Ayurvedic remedies</div>
+    <div id="ai-sym-output">
+      <button class="ai-btn" onclick="getAISymptomAnalysis('${pickedNames}','${dom}')">✦ Analyze My Symptoms with AI</button>
+    </div>
+  </div>`;
   symBox.scrollIntoView({behavior:'smooth',block:'nearest'});
 }
 
@@ -1699,6 +1814,295 @@ function checkHerbSafety(){
 }
 
 // ══════════════════════════════════════════════════════════════════
+// AI FUNCTIONS — Claude API Integration
+// ══════════════════════════════════════════════════════════════════
+
+async function callClaudeAPI(prompt, outputEl, onSuccess){
+  outputEl.innerHTML=`<div class="ai-loading"><div class="ai-dots"><div class="ai-dot"></div><div class="ai-dot"></div><div class="ai-dot"></div></div><span>Claude AI is thinking...</span></div>`;
+  
+  const SYSTEM = `You are AyurMind AI — an expert Ayurvedic health advisor trained on classical texts: Charaka Samhita, Ashtanga Hridayam, Sushruta Samhita, Madhava Nidana, and modern Ayurvedic clinical research (CCRAS, PMC studies).
+
+Your knowledge includes:
+- All 8 branches of Ayurveda (Ashtanga Ayurveda)
+- 300+ classical herbs from Dravyaguna Vijnana
+- Panchakarma therapies and Shodhana Chikitsa
+- Rasayana (rejuvenation) and Vajikarana protocols
+- Dinacharya, Ritucharya, Sadvritta guidelines
+- Modern Ayurvedic research and clinical validation
+
+Response rules:
+- Use emoji section headers (not markdown **)
+- Cite classical texts inline: (CS Sutrasthana 12.4) or (AH Ch.5)
+- Be specific with doses, timing, and duration
+- Always warm, encouraging tone
+- End with: "⚕️ For clinical guidance, consult a qualified Vaidya (BAMS/MD Ayurveda)."`;
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1000,
+        system: SYSTEM,
+        messages: [{ role: 'user', content: prompt }]
+      })
+    });
+
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      throw new Error(err.error?.message || `HTTP ${res.status}`);
+    }
+
+    const data = await res.json();
+    const text = data.content?.[0]?.text;
+    if (!text) throw new Error('Empty response');
+
+    if (onSuccess) {
+      onSuccess(text);
+    } else {
+      outputEl.innerHTML = `
+        <div class="ai-badge">✦ AI RESPONSE</div>
+        <div class="ai-response">${text.replace(/\n\n/g,'</p><p>').replace(/\n/g,'<br>')}</div>
+        <p style="font-size:10px;color:rgba(255,255,255,.3);margin-top:14px;font-style:italic;">⚕️ Educational guidance only. Consult a qualified Vaidya for clinical advice.</p>
+        <button class="ai-btn" style="margin-top:10px;opacity:.6;font-size:12px;padding:9px;" onclick="getAIResultAdvice()">🔄 Regenerate</button>`;
+    }
+  } catch(e) {
+    console.error('AyurMind AI error:', e);
+    // Fallback: use expanded local database response
+    const fallback = generateLocalAIResponse(prompt);
+    if (fallback) {
+      outputEl.innerHTML = `
+        <div class="ai-badge" style="background:rgba(255,200,0,.15);border-color:rgba(255,200,0,.3);color:#D4A800;">⚡ ENHANCED LOCAL RESPONSE</div>
+        <div class="ai-response">${fallback}</div>
+        <p style="font-size:10px;color:rgba(255,255,255,.3);margin-top:14px;font-style:italic;">⚕️ Educational guidance only. Consult a qualified Vaidya for clinical advice.</p>`;
+    } else {
+      outputEl.innerHTML = `<p style="color:rgba(255,150,100,.9);font-size:12px;line-height:1.6;">⚠️ AI connection unavailable. Showing enhanced local guidance below.</p>`;
+    }
+  }
+}
+
+// 1. AI RESULT ADVICE — after quiz completion
+async function getAIResultAdvice(){
+  const r=appState.resultData;
+  if(!r) return;
+  const outputEl=document.getElementById('ai-result-output');
+  if(!outputEl) return;
+  const d=PD[r.dominant];
+  const ws=calcWellnessScore(r);
+  const prompt=`My Ayurvedic Prakriti assessment results:
+- Dominant Prakriti: ${d.name} (${d.element})
+- Dosha percentages: Vata ${r.vata}% | Pitta ${r.pitta}% | Kapha ${r.kapha}%
+- Constitution type: ${r.prakritiType==='sama'?'Sama (balanced)':r.prakritiType==='dual'?d.name+'-'+PD[r.secondDom].name+' dual':d.name+' single dominant'}
+- Wellness Score: ${ws.score}/100 (Balance: ${ws.balance}, Clarity: ${ws.clarity}, Vitality: ${ws.vitality})
+
+Please give me:
+1. A personalized interpretation of my unique dosha combination
+2. My top 3 most important lifestyle changes for this exact Prakriti
+3. The single most important herb for me right now and why
+4. One morning practice I should start immediately
+5. One food I should avoid that I might not expect
+
+Be specific to my exact percentages — not generic ${d.name} advice.`;
+  await callClaudeAPI(prompt, outputEl);
+}
+
+// 2. AI SYMPTOM ANALYSIS
+async function getAISymptomAnalysis(symptoms, dominantImbalance){
+  const outputEl=document.getElementById('ai-sym-output');
+  if(!outputEl) return;
+  const r=appState.resultData;
+  const prakritiContext=r?`My Prakriti is ${PD[r.dominant].name} (Vata ${r.vata}%, Pitta ${r.pitta}%, Kapha ${r.kapha}%).`:'Prakriti not yet assessed.';
+  const prompt=`${prakritiContext}
+
+I am currently experiencing these symptoms: ${symptoms}
+
+The dominant imbalance appears to be: ${dominantImbalance} aggravation
+
+Please provide:
+1. Ayurvedic explanation of why these specific symptoms occur together
+2. The underlying dosha imbalance and which Srotas (channels) are affected
+3. Top 5 specific home remedies I can start today (with exact doses)
+4. Foods to avoid strictly for the next 2 weeks
+5. One specific Pranayama or yoga pose for immediate relief
+6. When I should urgently see a Vaidya vs when self-management is sufficient
+
+Cite relevant classical texts for key recommendations.`;
+  await callClaudeAPI(prompt, outputEl);
+}
+
+// 3. AI DAILY TIP
+async function getAIDailyTip(dominant, vata, pitta, kapha){
+  const btn=document.getElementById('ai-tip-btn');
+  const tipText=document.getElementById('daily-tip-text');
+  if(!tipText) return;
+  if(btn){ btn.disabled=true; btn.textContent='Loading...'; }
+  const today=new Date().toLocaleDateString('en-IN',{weekday:'long',day:'numeric',month:'long'});
+  const hour=new Date().getHours();
+  const timeOfDay=hour<12?'morning':hour<17?'afternoon':'evening';
+  const month=new Date().getMonth();
+  const season=month<=1||month===11?'Shishira (Late Winter — Vata/Kapha)':month<=3?'Vasanta (Spring — Kapha season)':month<=5?'Grishma (Summer — Pitta/Vata)':month<=7?'Varsha (Monsoon — Vata)':month<=9?'Sharad (Autumn — Pitta)':'Hemanta (Early Winter — optimal)';
+  const prompt=`Give me ONE highly specific, actionable Ayurvedic health tip for today.
+My profile: ${PD[dominant].name} dominant (Vata ${vata}%, Pitta ${pitta}%, Kapha ${kapha}%)
+Today: ${today}, ${timeOfDay} | Season: ${season}
+Requirements: SPECIFIC to my exact dosha combo, not generic. Include exact herb/food/practice with dose/duration. Explain WHY briefly (Ayurvedic mechanism). Cite one classical source. Max 4 sentences. Start directly — no preamble.`;
+
+  try{
+    const res=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        model:'claude-sonnet-4-20250514',
+        max_tokens:1000,
+        system:'You are AyurMind AI — an expert Ayurvedic advisor. Give concise, specific, actionable daily tips grounded in classical Ayurveda texts. Always cite one source. No markdown formatting.',
+        messages:[{role:'user',content:prompt}]
+      })
+    });
+    if(!res.ok) throw new Error('HTTP '+res.status);
+    const data=await res.json();
+    const text=data.content?.[0]?.text;
+    if(!text) throw new Error('empty');
+    tipText.innerHTML=`✦ ${text}`;
+    const src=tipText.closest('.ai-tip-card')?.querySelector('.ai-tip-src');
+    if(src) src.textContent='✦ Generated by Claude AI · Personalized for your Prakriti';
+    if(btn){ btn.textContent='✓ Done'; btn.style.opacity='.5'; }
+  } catch(e){
+    // Fallback to expanded local tip
+    const fallbackTips={
+      vata:['🌿 Apply warm sesame oil (Tila Taila) to the soles of your feet for 5 minutes before sleep tonight. Sesame is the single most Vata-pacifying substance — its heavy, unctuous quality directly counters Vata\'s dry, light nature. Foot massage stimulates Marma points that calm the nervous system. (Ashtanga Hridayam Sutrasthana 2.8 — Padabhyanga)','🫚 Drink one cup of warm water with ½ tsp dry ginger (Shunti) and a pinch of rock salt before your next meal. This kindles Vishama Agni — the irregular, erratic digestive fire typical of Vata — without adding heat. (Charaka Samhita Chikitsa 15.69)','🧘 Do 5 minutes of Nadi Shodhana (alternate nostril breathing) right now. This balances Prana Vata — the sub-dosha governing breath and mental clarity — and is the fastest anxiety remedy in Ayurveda. (Hatha Yoga Pradipika 2.44)'],
+      pitta:['❄️ Drink 1 tsp raw Amalaki (Amla) powder in ½ glass cool water first thing tomorrow morning. Amalaki contains the highest Vitamin C of any fruit AND is the only herb that pacifies all three doshas while specifically targeting Pitta in the liver and blood. (Charaka Samhita Sutrasthana 25 — Amalaki as Rasayana)','🌊 Practice Sheetali Pranayama (rolled tongue cooling breath) for 3 minutes before any stressful activity today. It directly cools Sadhaka Pitta — the sub-dosha of the heart governing emotions — reducing irritability and decision-fatigue. (Hatha Yoga Pradipika 2.57)','🥥 Replace your morning chai with coconut water + a pinch of cardamom today. Coconut is Sheeta (cold), Madhura (sweet) — the two qualities that most directly pacify Pitta. Cardamom makes it digestible. (Ashtanga Hridayam Sutrasthana 5)'],
+      kapha:['⚡ Wake up 30 minutes earlier tomorrow and do 10 rounds of Surya Namaskar before eating. Every minute of sleep after sunrise increases Kapha in the Srotases (channels) causing the characteristic heaviness and brain fog. Sun Salutations generate Agni (metabolic fire) that burns the Ama accumulation. (Charaka Samhita Sutrasthana 21)','🌶️ Add ½ tsp Trikatu (equal parts dry ginger + black pepper + long pepper) to warm water with 1 tsp raw honey — drink before breakfast. This is the single most powerful Kapha-digestive formula — kindles Manda Agni and liquefies Kapha from Srotas. (CS Chikitsa 15.72)','💧 Drink only warm-to-hot water today — zero cold drinks. Kapha is the cold, heavy, wet dosha — cold water amplifies it while warm water is literally medicinal for Kapha types, improving lymphatic circulation and digestion. (Ashtanga Hridayam Sutrasthana 5.17)']
+    };
+    const tips=fallbackTips[dominant]||fallbackTips.vata;
+    const tip=tips[new Date().getDate()%tips.length];
+    tipText.innerHTML=`💡 ${tip}`;
+    const src=tipText.closest('.ai-tip-card')?.querySelector('.ai-tip-src');
+    if(src) src.textContent='Enhanced local database · Ayurvedic classical guidance';
+    if(btn){ btn.disabled=false; btn.textContent='✦ AI Tip'; }
+  }
+}
+
+// ══════════════════════════════════════════════════════════════════
+// EXPANDED LOCAL AI FALLBACK DATABASE
+// ══════════════════════════════════════════════════════════════════
+function generateLocalAIResponse(prompt){
+  const r=appState.resultData;
+  if(!r) return null;
+  const d=PD[r.dominant];
+  const ws=calcWellnessScore(r);
+
+  // Detect which type of response is needed
+  const isSymptom=prompt.includes('experiencing these symptoms');
+  const isResult=prompt.includes('Prakriti assessment results');
+
+  if(isResult){
+    const responses={
+      vata:`🌬️ Your Vata Profile — Personalized Analysis
+
+Your Vata ${r.vata}% | Pitta ${r.pitta}% | Kapha ${r.kapha}% combination is ${r.vata>50?'strongly Vata dominant — your nervous system and creativity are your greatest gifts, but also your vulnerability':'a balanced profile with Vata as your guide'}. Your Wellness Score of ${ws.score}/100 shows ${ws.score>=70?'good constitutional harmony — focus on maintenance':'room for improvement — prioritize grounding practices immediately'}.
+
+🎯 Your Top 3 Personalized Changes
+1. Routine above all — Vata thrives on fixed meal and sleep times. Set alarms for 7 AM breakfast, 12:30 PM lunch, 6:30 PM dinner. Even 3 days of this will reduce your anxiety noticeably. (CS Sutrasthana 5 — Kala Bhojanam)
+2. Warm oil self-massage (Abhyanga) with sesame oil every morning — 10 minutes before bath. Sesame's heavy, warm, unctuous qualities are the direct antidote to your Vata's dryness. (AH Sutrasthana 2.8)
+3. Eliminate cold, raw, dry foods completely for 30 days — no salads, cold water, crackers, or skipped meals. These are the primary Vata aggravators. (CS Sutrasthana 7)
+
+🌿 Your Single Most Important Herb Right Now
+Ashwagandha (Withania somnifera) — 1 tsp powder in warm full-fat milk at bedtime. Of all Vata herbs, Ashwagandha targets your specific combination of Vata in the nervous system (Majja dhatu) and low Ojas. Within 2 weeks you should notice improved sleep and reduced anxiety. (CS Balya group; PMC3252722 clinical validation)
+
+🌅 Start This Morning Practice Tomorrow
+Warm sesame oil on the crown of your head (Murdha Taila) for 10 minutes while sitting quietly — before bath. This is the most grounding morning practice for Vata — it feeds the brain through the scalp's Marma points and calms Prana Vata.
+
+🥗 Unexpected Food to Avoid
+Popcorn. Dry, light, rough, puffed — it is the most Vata-aggravating food possible. Also avoid kombucha, raw onions, and cauliflower. Add: ghee, sesame seeds, dates, and warm soups instead.
+
+⚕️ For clinical guidance, consult a qualified Vaidya (BAMS/MD Ayurveda).`,
+
+      pitta:`🔥 Your Pitta Profile — Personalized Analysis
+
+Your Pitta ${r.pitta}% | Vata ${r.vata}% | Kapha ${r.kapha}% profile means you have a sharp, focused mind with strong digestion — but excess heat is your primary health risk. Your Wellness Score of ${ws.score}/100 ${ws.score>=70?'is solid — your discipline is working':'suggests Pitta is currently aggravated — cooling measures are urgent'}.
+
+🎯 Your Top 3 Personalized Changes
+1. Eat your largest meal at noon, not evening — Pitta peaks at midday when digestive enzymes (Pachaka Pitta) are strongest. Evening heavy meals create Ama (toxins) in your Pitta-dominant gut. (CS Sutrasthana 5)
+2. Sheetali Pranayama — 5 minutes of cooling breath before any stressful meeting or decision. Roll your tongue, inhale cool air, exhale through the nose. This is the fastest Pitta pacifier available. (HYP 2.57)
+3. No phone/screen for 1 hour before sleep — Alochaka Pitta (visual fire) takes 60 minutes to cool after screen exposure. Poor sleep worsens ALL Pitta symptoms.
+
+🌿 Your Single Most Important Herb Right Now
+Amalaki (Emblica officinalis) — 1 tsp powder with cool water every morning. It is the only Rasayana that specifically targets Pitta in the liver (Ranjaka Pitta) and blood (Rakta dhatu). Rich in Vitamin C, cooling, anti-inflammatory. (CS Rasayana 1; Nature Scientific Reports 2015)
+
+🌅 Start This Morning Practice Tomorrow
+10 minutes of Sheetali Pranayama followed by 5 minutes lying in Savasana with eyes covered. Pitta people start the day already in "doing" mode — this teaches your nervous system to begin from coolness rather than urgency.
+
+🥗 Unexpected Food to Avoid
+Tomatoes — despite being vegetables, they are sour, heating, and specifically aggravate Pitta in the liver and skin. Also avoid vinegar, fermented foods, and alcohol entirely. Add: coconut water, coriander seeds in food, fennel tea.
+
+⚕️ For clinical guidance, consult a qualified Vaidya (BAMS/MD Ayurveda).`,
+
+      kapha:`🌊 Your Kapha Profile — Personalized Analysis
+
+Your Kapha ${r.kapha}% | Vata ${r.vata}% | Pitta ${r.pitta}% combination means you have remarkable stamina, loyalty, and a calm mind — but your primary battle is with inertia, weight, and congestion. Your Wellness Score of ${ws.score}/100 ${ws.score>=70?'is good — your consistency is your strength':'indicates Kapha needs more active stimulation — increase your effort now'}.
+
+🎯 Your Top 3 Personalized Changes
+1. Wake up by 6 AM daily — non-negotiable for Kapha. Every minute of sleep after sunrise increases Kapha in the channels (Srotases) causing the characteristic heaviness, brain fog, and weight gain you likely experience. (CS Sutrasthana 21)
+2. Replace one meal per week with a complete fast or just warm water with Trikatu — this gives your Manda Agni (slow digestive fire) time to burn existing Ama. Even monthly is transformative for Kapha. (AH Sutrasthana 14)
+3. Vigorous exercise daily — minimum 30 minutes, 5 days a week. For Kapha, exercise is literally medicine. It is the PRIMARY treatment above herbs and diet. (CS Sutrasthana 21 — Kapha Chikitsa)
+
+🌿 Your Single Most Important Herb Right Now
+Trikatu (Ginger + Black Pepper + Long Pepper, equal parts) — ¼ tsp with warm water + 1 tsp raw honey before each meal. This is the classical Kapha formula — it kindles your Manda Agni, cuts through mucus in the channels, and mobilizes stuck Kapha from adipose tissue. (CS Chikitsa 15.72)
+
+🌅 Start This Morning Practice Tomorrow
+10 rounds of Kapalbhati Pranayama (rapid exhale breath — 1 exhale per second) immediately after waking. This is the single best morning practice for Kapha — it heats the body, clears mucus from lungs, stimulates the lymphatic system, and breaks through Kapha inertia before breakfast.
+
+🥗 Unexpected Food to Avoid
+Banana — despite being a "health food," it is heavy, sweet, cold, and unctuous — exactly the qualities that increase Kapha. Also avoid yogurt at night, wheat, and all cold drinks. Add: bitter melon (karela), fenugreek, mustard seeds, dry roasted foods.
+
+⚕️ For clinical guidance, consult a qualified Vaidya (BAMS/MD Ayurveda).`
+    };
+    return responses[r.dominant]||responses.vata;
+  }
+
+  if(isSymptom){
+    const dom=r.dominant;
+    return `🔍 AI Symptom Analysis — ${PD[dom].name} Prakriti Context
+
+Based on your ${PD[dom].name} Prakriti (Vata ${r.vata}% | Pitta ${r.pitta}% | Kapha ${r.kapha}%), your symptoms reflect a predictable aggravation pattern for your constitution. Here is the detailed Ayurvedic analysis:
+
+🫀 Affected Channels (Srotas)
+Your symptom combination points to ${dom==='vata'?'Pranavaha Srotas (respiratory/nervous), Annavaha Srotas (digestive), and Asthivaha Srotas (bone/joint channels) being affected by Vata aggravation':dom==='pitta'?'Raktavaha Srotas (blood/liver), Annavaha Srotas (digestive), and Swedavaha Srotas (sweat channels) showing Pitta excess':'Rasavaha Srotas (lymphatic), Medovaha Srotas (fat channels), and Pranavaha Srotas (respiratory) showing Kapha accumulation'}.
+
+💊 Your Top 5 Home Remedies — Start Today
+${dom==='vata'?
+`1. Warm sesame oil self-massage (Abhyanga) — 15 minutes daily before bath. Use sesame oil warmed in water. (AH Sutrasthana 2.8)
+2. Dashamula tea — 1 tsp Dashamula churna boiled in 2 cups water, reduced to 1 cup. Drink morning and evening. Best Vata herb combination. (CS Chikitsa 28)
+3. Ashwagandha 1 tsp + warm milk + pinch of nutmeg — at bedtime. Calms Vata in the nervous system within 7 days. (PMC3252722)
+4. Triphala 1 tsp in warm water at night — regulates Apana Vata (downward movement) and relieves constipation. (Dravyaguna Vijnana)
+5. Warm cumin-ginger-fennel water throughout the day — sip constantly. This trio is classical Vata digestive formula. (CS Chikitsa 15.69)`:
+dom==='pitta'?
+`1. Amalaki 1 tsp powder in cool water — every morning on empty stomach. The fastest Pitta blood purifier. (CS Sutrasthana 25)
+2. Coconut oil — replace all cooking oils with coconut oil this week. It is Sheeta (cold) and Madhura (sweet) — directly pacifying to Pitta inflammation. (Dravyaguna Vijnana)
+3. Coriander seed water — soak 1 tsp seeds overnight, strain and drink the water morning and evening. Specific for Pitta in Rasa dhatu and kidneys. (AH Chikitsa 1)
+4. Shatavari 1 tsp in coconut milk — morning and evening. Cooling, anti-inflammatory Rasayana for Pitta. (CS Chikitsa 30)
+5. Apply pure coconut oil to scalp and soles before sleep — absorbs Pitta heat through skin and Marma points. (AH Sutrasthana 2)`:
+`1. Trikatu churna ¼ tsp with warm water + honey before every meal. Primary Kapha formula — kindles Manda Agni. (CS Chikitsa 15.72)
+2. Dry ginger (Shunti) + honey decoction — boil 5g dry ginger in 2 cups water, cool to warm, add 1 tsp raw honey. Drink twice daily. (AH Sutrasthana 5)
+3. Triphala 2 tsp in warm water at night — specifically clears Kapha Ama from colon and lymphatic channels. (Dravyaguna Vijnana)
+4. Guggulu 250mg (tablet) after meals — most effective Kapha herb for fat and lymphatic channel congestion. (AH Sutrasthana 15)
+5. Sesame seed dry roasting — eat 1 tbsp dry roasted sesame seeds before lunch. Heating, stimulating, Kapha-reducing. (Dravyaguna Vijnana)`}
+
+🥗 Avoid Strictly for 2 Weeks
+${dom==='vata'?'Cold foods and drinks, raw salads, crackers, chips, popcorn, carbonated drinks, caffeine, skipped meals, late nights.':dom==='pitta'?'Spicy foods, fermented items (vinegar, alcohol, pickles), tomatoes, sour fruits, red meat, coffee, excessive sun exposure.':'Cold drinks, dairy especially cheese and yogurt, sweets, wheat, fried foods, bananas, excessive sleep, afternoon naps.'}
+
+🧘 Immediate Relief — Pranayama
+${dom==='vata'?'Nadi Shodhana (Alternate Nostril) — 5 minutes: balances Prana Vata and calms the nervous system immediately. Inhale left 4 counts, hold 16, exhale right 8. (HYP 2.44)':dom==='pitta'?'Sheetali Pranayama — 5 minutes: roll tongue, inhale cool air, exhale through nose. The fastest internal Pitta cooler available. (HYP 2.57)':'Kapalbhati — 3 minutes: rapid forceful exhales (1/second). Directly stimulates Agni, clears Kapha from Pranavaha Srotas, creates heat. (HYP 2.35)'}
+
+⚠️ When to See a Vaidya Urgently
+See a qualified Vaidya (BAMS/MD Ayurveda) if: symptoms persist beyond 2 weeks of home management, pain is severe or worsening, fever accompanies symptoms, significant weight changes occur, or if you are pregnant/on prescription medications.
+
+⚕️ For clinical guidance, consult a qualified Vaidya (BAMS/MD Ayurveda).`;
+  }
+  return null;
+}
+
+// ══════════════════════════════════════════════════════════════════
 // SCROLL TO TOP
 // ══════════════════════════════════════════════════════════════════
 window.addEventListener('scroll',()=>{
@@ -1737,7 +2141,7 @@ showDisclaimerIfNeeded();
       <span style="font-size:11px;color:var(--pitta);">⚠️ If you have any medical condition, are pregnant, or are on prescription medication, do not change your treatment without consulting your doctor.</span>
     </div>
     <button class="disc-accept" onclick="acceptDisclaimer()">I Understand — Continue to App</button>
-    <div class="disc-footer">By continuing, you acknowledge this is for educational purposes only.<br>Under Indian IT Act 2000 & IMC Act 1956 — not a medical device.<br>v7 — Languages: EN · हि · मर · ಕ · த · తె</div>
+    <div class="disc-footer">By continuing, you acknowledge this is for educational purposes only.<br>Under Indian IT Act 2000 & IMC Act 1956 — not a medical device.<br>v10 — Languages: EN · हि · मर · ಕ · த · తె</div>
   </div>
 </div>
 </body>
